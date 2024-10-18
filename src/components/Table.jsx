@@ -8,10 +8,10 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 
 export default function Table({ data: initialData = [] }) {
 
+    
     const [data, setData] = useState(initialData); // 初始化状态
     const [modalData, setModalData] = useState(null);
     const modalRef = useRef(null);
-
 
 
     useEffect(() => {
@@ -26,8 +26,6 @@ export default function Table({ data: initialData = [] }) {
     };
 
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
-
-
 
 
     const getImgUrl = (url) => {
@@ -169,13 +167,10 @@ export default function Table({ data: initialData = [] }) {
                 <thead >
                     <tr className="sticky top-0 bg-gray-100 z-20">
                         <th className=" py-2 px-4 border-b border-gray-200 bg-gray-100  text-center text-sm font-semibold text-gray-600">name</th>
-                        <th className="sticky left-0 z-10 py-2 px-4 border-b border-gray-200 bg-gray-100 text-center text-sm font-semibold text-gray-600">preview</th>
+                        <th className="sticky left-0 z-10 py-2 px-4 border-b border-gray-200 bg-gray-100 text-center text-sm font-semibold text-gray-600">预览</th>
                         <th className=" py-2 px-4 border-b border-gray-200 bg-gray-100  text-center text-sm font-semibold text-gray-600">time</th>
-                        <th className=" py-2 px-4 border-b border-gray-200 bg-gray-100  text-center text-sm font-semibold text-gray-600">referer</th>
-                        <th className=" py-2 px-4 border-b border-gray-200 bg-gray-100  text-center text-sm font-semibold text-gray-600">ip</th>
-                        <th className=" py-2 px-4 border-b border-gray-200 bg-gray-100  text-center text-sm font-semibold text-gray-600">PV</th>
                         <th className=" py-2 px-4 border-b border-gray-200 bg-gray-100  text-center text-sm font-semibold text-gray-600">rating</th>
-                        <th className="sticky  right-0 z-10 py-2 px-4 border-b border-gray-200 bg-gray-100  text-center text-sm font-semibold text-gray-600">限制访问</th>
+                        <th className="sticky  right-0 z-10 py-2 px-4 border-b border-gray-200 bg-gray-100  text-center text-sm font-semibold text-gray-600">限制访问 与 删除</th>
                     </tr>
                 </thead>
                 <tbody >
@@ -226,12 +221,8 @@ export default function Table({ data: initialData = [] }) {
                                 <td onClick={() => handleNameClick(item)} className="text-center py-2 px-4 border-b border-gray-200 text-sm text-gray-700 truncate max-w-48">
                                     {item.url}
                                 </td>
-                                <td
-                                    className="w-20 h-20 sticky left-0 z-10   py-2 px-4 border-b border-gray-500 bg-white text-sm text-gray-700"
-                                >
-
-                                    {
-                                        isVideo(getImgUrl(item.url)) ? (
+                                <td className="w-20 h-20 sticky left-0 z-10   py-2 px-4 border-b border-gray-500 bg-white text-sm text-gray-700">
+                                    { isVideo(getImgUrl(item.url)) ? (
 
                                             <PhotoView key={item.url}
                                                 width={elementSize}
@@ -256,21 +247,13 @@ export default function Table({ data: initialData = [] }) {
                                             >
                                                 {renderFile(getImgUrl(item.url), index)}
                                             </PhotoView>
-
                                         )
                                     }
-
                                 </td>
                                 <td className="text-center py-2 px-4 border-b border-gray-200 text-sm text-gray-700 max-w-48">
                                     {item.time}
                                 </td>
-                                <td className="text-center py-2 px-4 border-b border-gray-200 text-sm text-gray-700 max-w-48 break-all">
-                                    <TooltipItem tooltipsText={item.referer} position="bottom" >{item.referer}</TooltipItem>
-                                </td>
-                                <td className="text-center py-2 px-4 border-b border-gray-200 text-sm text-gray-700 max-w-48 ">
-                                    <TooltipItem tooltipsText={item.ip} position="bottom" >{item.ip}</TooltipItem>
-                                </td>
-                                <td className="text-center py-2 px-4 border-b border-gray-200 text-sm text-gray-700 max-w-2 ">{item.total}</td>
+                                
                                 <td className="text-center py-2 px-4 border-b border-gray-200 text-sm text-gray-700 max-w-2 ">{item.rating}</td>
                                 <td className="sticky  right-0 z-10 bg-white text-center py-2 px-4 border-b border-gray-200 text-sm text-gray-700">
                                     <div className="flex flex-row justify-center">
@@ -286,9 +269,7 @@ export default function Table({ data: initialData = [] }) {
                                     </div>
                                 </td>
                             </tr>
-
                         ))}
-
                     </PhotoProvider>
                 </tbody>
             </table>
@@ -307,7 +288,8 @@ export default function Table({ data: initialData = [] }) {
                             {[
                                 { text: getImgUrl(modalData.url), onClick: () => handleCopy(getImgUrl(modalData.url)) },
                                 { text: `![${modalData.url}](${getImgUrl(modalData.url)})`, onClick: () => handleCopy(`![${modalData.name}](${getImgUrl(modalData.url)})`) },
-                                { text: `<a href="${getImgUrl(modalData.url)}" target="_blank"><img src="${getImgUrl(modalData.url)}"></a>`, onClick: () => handleCopy(`<a href="${getImgUrl(modalData.url)}" target="_blank"><img src="${getImgUrl(modalData.url)}"></a>`) },
+                                { text: `<a href="${getImgUrl(modalData.url)}" target="_blank"><img src="${getImgUrl(modalData.url)}"></a>`, 
+                                             onClick: () => handleCopy(`<a href="${getImgUrl(modalData.url)}" target="_blank"><img src="${getImgUrl(modalData.url)}"></a>`) },
                                 { text: `[img]${getImgUrl(modalData.url)}[/img]`, onClick: () => handleCopy(`[img]${getImgUrl(modalData.url)}[/img]`) },
                             ].map((item, i) => (
                                 <input
@@ -317,17 +299,11 @@ export default function Table({ data: initialData = [] }) {
                                     onClick={item.onClick}
                                     className="mx-2 px-3 my-1 py-2 border border-gray-300 rounded-lg bg-white text-sm text-gray-800 focus:outline-none placeholder-gray-400"
                                 />
-
-
                             ))}
                         </div>
-
                     </div>
                 </div>
-
-
             )}
-
         </div>
     );
 }
